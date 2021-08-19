@@ -4,6 +4,38 @@ import plotly.graph_objs as go
 # Use this file to read in your data and prepare the plotly visualizations. The path to the data files are in
 # `data/file_name.csv`
 
+def cleandata(dataset, seriesCode):
+    """Clean world bank data for a visualizaiton dashboard
+
+    Keeps data for the top 10 economies and data series of the seriesCode
+    Reorients the columns into a year, country and value
+    Saves the results to a csv file
+
+    Args:
+        dataset (str): name of the csv data file
+        seriesCode (str):  code of the data series e.g IS.AIR.DPRT
+
+    Returns:
+        df_melt (dataframe): cleaned data frame
+
+    """    
+    
+    df = pd.read_csv(dataset)
+    df = df[['Series Code', 'Country Name', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019']]
+    
+    df = df[df['Series Code'] == seriesName]
+
+    top10country = ['United States', 'China', 'Japan', 'Germany', 'United Kingdom', 'India', 'France', 'Brazil', 'Italy', 'Canada']
+    df = df[df['Country Name'].isin(top10country)]
+
+    # melt year columns  and convert year to date time
+    df_melt = df.melt(id_vars='Country Name', value_vars = ['2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019'])
+    df_melt.columns = ['country','year', 'variable']
+    df_melt['year'] = df_melt['year'].astype('datetime64[ns]').dt.year
+
+    # output clean csv file
+    return df_melt
+
 def return_figures():
     """Creates four plotly visualizations
 
@@ -18,14 +50,23 @@ def return_figures():
     # first chart plots arable land from 1990 to 2015 in top 10 economies 
     # as a line chart
     
-    graph_one = []    
-    graph_one.append(
-      go.Scatter(
-      x = [0, 1, 2, 3, 4, 5],
-      y = [0, 2, 4, 6, 8, 10],
-      mode = 'lines'
+    
+    graph_one = [] 
+    df = cleandata('data/global_flights_data.csv', 'IS.AIR.DPRT')
+    df.sort_values('variable', ascending=False, inplace=True)
+    countrylist = df.country.unique().tolist()
+    
+    for country in countrylist:
+      x_val = df[df['country'] == country].year.tolist()
+      y_val =  df[df['country'] == country].variable.tolist()
+      graph_one.append(
+          go.Scatter(
+          x = x_val,
+          y = y_val,
+          mode = 'lines',
+          name = country
+          )
       )
-    )
 
     layout_one = dict(title = 'Chart One',
                 xaxis = dict(title = 'x-axis label'),
