@@ -23,7 +23,7 @@ def cleandata(dataset, seriesCode):
     df = pd.read_csv(dataset)
     df = df[['Series Code', 'Country Name', '2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019']]
     
-    df = df[df['Series Code'] == seriesName]
+    df = df[df['Series Code'] == seriesCode]
 
     top10country = ['United States', 'China', 'Japan', 'Germany', 'United Kingdom', 'India', 'France', 'Brazil', 'Italy', 'Canada']
     df = df[df['Country Name'].isin(top10country)]
