@@ -53,7 +53,6 @@ def return_figures():
     
     graph_one = [] 
     df = cleandata('data/global_flights_data.csv', 'IS.AIR.DPRT')
-    df.sort_values('variable', ascending=False, inplace=True)
     countrylist = df.country.unique().tolist()
     
     for country in countrylist:
