@@ -69,7 +69,7 @@ def return_figures():
 
     layout_one = dict(title = 'Air transport, registered carrier departures worldwide',
                 xaxis = dict(title = 'Year'),
-                yaxis = dict(title = 'Air transport, registered carrier departures worldwide'),
+                yaxis = dict(title = 'Registered Carrier Departures Worldwide'),
                 )
 
 # second chart plots Air transport, freight (million ton-km) for 2005 to 2015 as a line chart    
@@ -91,7 +91,7 @@ def return_figures():
 
     layout_two = dict(title = 'Air transport, freight (million ton-km)',
                 xaxis = dict(title = 'Year'),
-                yaxis = dict(title = 'Air transport, freight (million ton-km)'),
+                yaxis = dict(title = 'Freight (million ton-km)'),
                 )
 
 
@@ -114,7 +114,7 @@ def return_figures():
 
     layout_three = dict(title = 'Air transport, passengers carried',
                 xaxis = dict(title = 'Year'),
-                yaxis = dict(title = 'Air transport, passengers carried')
+                yaxis = dict(title = 'Passengers carried')
                        )
     
     
