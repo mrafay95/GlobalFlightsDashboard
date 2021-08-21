@@ -47,7 +47,7 @@ def return_figures():
 
     """
 
-    # first chart plots arable land from 1990 to 2015 in top 10 economies 
+    # first chart plots Air transport, registered carrier departures worldwide from 2005 to 2015 in top 10 economies 
     # as a line chart
     
     
@@ -67,63 +67,61 @@ def return_figures():
           )
       )
 
-    layout_one = dict(title = 'Chart One',
-                xaxis = dict(title = 'x-axis label'),
-                yaxis = dict(title = 'y-axis label'),
+    layout_one = dict(title = 'Air transport, registered carrier departures worldwide',
+                xaxis = dict(title = 'Year'),
+                yaxis = dict(title = 'Air transport, registered carrier departures worldwide'),
                 )
 
-# second chart plots ararble land for 2015 as a bar chart    
+# second chart plots Air transport, freight (million ton-km) for 2005 to 2015 as a line chart    
     graph_two = []
-
-    graph_two.append(
-      go.Bar(
-      x = ['a', 'b', 'c', 'd', 'e'],
-      y = [12, 9, 7, 5, 1],
+    df = cleandata('data/global_flights_data.csv', 'IS.AIR.GOOD.MT.K1')
+    countrylist = df.country.unique().tolist()
+    
+    for country in countrylist:
+      x_val = df[df['country'] == country].year.tolist()
+      y_val =  df[df['country'] == country].variable.tolist()
+      graph_two.append(
+          go.Scatter(
+          x = x_val,
+          y = y_val,
+          mode = 'lines',
+          name = country
+          )
       )
-    )
 
-    layout_two = dict(title = 'Chart Two',
-                xaxis = dict(title = 'x-axis label',),
-                yaxis = dict(title = 'y-axis label'),
+    layout_two = dict(title = 'Air transport, freight (million ton-km)',
+                xaxis = dict(title = 'Year'),
+                yaxis = dict(title = 'Air transport, freight (million ton-km)'),
                 )
 
 
-# third chart plots percent of population that is rural from 1990 to 2015
+# third chart plots Air transport, passengers carried from 2005 to 2015
     graph_three = []
-    graph_three.append(
-      go.Scatter(
-      x = [5, 4, 3, 2, 1, 0],
-      y = [0, 2, 4, 6, 8, 10],
-      mode = 'lines'
+    df = cleandata('data/global_flights_data.csv', 'IS.AIR.PSGR')
+    countrylist = df.country.unique().tolist()
+    
+    for country in countrylist:
+      x_val = df[df['country'] == country].year.tolist()
+      y_val =  df[df['country'] == country].variable.tolist()
+      graph_three.append(
+          go.Scatter(
+          x = x_val,
+          y = y_val,
+          mode = 'lines',
+          name = country
+          )
       )
-    )
 
-    layout_three = dict(title = 'Chart Three',
-                xaxis = dict(title = 'x-axis label'),
-                yaxis = dict(title = 'y-axis label')
+    layout_three = dict(title = 'Air transport, passengers carried',
+                xaxis = dict(title = 'Year'),
+                yaxis = dict(title = 'Air transport, passengers carried')
                        )
     
-# fourth chart shows rural population vs arable land
-    graph_four = []
-    
-    graph_four.append(
-      go.Scatter(
-      x = [20, 40, 60, 80],
-      y = [10, 20, 30, 40],
-      mode = 'markers'
-      )
-    )
-
-    layout_four = dict(title = 'Chart Four',
-                xaxis = dict(title = 'x-axis label'),
-                yaxis = dict(title = 'y-axis label'),
-                )
     
     # append all charts to the figures list
     figures = []
     figures.append(dict(data=graph_one, layout=layout_one))
     figures.append(dict(data=graph_two, layout=layout_two))
     figures.append(dict(data=graph_three, layout=layout_three))
-    figures.append(dict(data=graph_four, layout=layout_four))
 
     return figures
